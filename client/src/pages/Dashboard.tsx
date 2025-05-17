@@ -5,6 +5,7 @@ import { AppCard } from '@/components/AppCard';
 import { formatTimeAgo } from '@/utils/formatTimeAgo';
 import { motion } from 'framer-motion';
 import { AppWithStatus, StatusSummary } from '@/types';
+import { useToast } from '@/hooks/use-toast';
 
 interface DashboardProps {
   toggleSidebar: () => void;
@@ -14,6 +15,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ toggleSidebar }) => {
   const [apps, setApps] = useState<AppWithStatus[]>([]);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
   
   // Calculate status summary based on apps array
   const statusSummary: StatusSummary = {
@@ -29,6 +31,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ toggleSidebar }) => {
       
       // Fetch configuration to get apps
       const configRes = await fetch('/api/config');
+      
+      if (!configRes.ok) {
+        throw new Error(`Failed to fetch configuration: ${configRes.status}`);
+      }
+      
       const configData = await configRes.json();
       
       // Check status for each app
@@ -44,6 +51,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ toggleSidebar }) => {
               status: data.status
             };
           } catch (error) {
+            console.error(`Error checking status for ${app.name}:`, error);
             return {
               ...app,
               status: 'offline'
@@ -54,8 +62,21 @@ export const Dashboard: React.FC<DashboardProps> = ({ toggleSidebar }) => {
       
       setApps(appsWithStatus);
       setLastUpdated(new Date());
+      
+      // Show success toast when manually refreshed (not on initial load)
+      if (lastUpdated !== null) {
+        toast({
+          title: "Status Updated",
+          description: `Updated status for ${appsWithStatus.length} applications`,
+        });
+      }
     } catch (error) {
       console.error('Error refreshing status:', error);
+      toast({
+        title: "Error",
+        description: "Failed to refresh application status",
+        variant: "destructive"
+      });
     } finally {
       setIsLoading(false);
     }
