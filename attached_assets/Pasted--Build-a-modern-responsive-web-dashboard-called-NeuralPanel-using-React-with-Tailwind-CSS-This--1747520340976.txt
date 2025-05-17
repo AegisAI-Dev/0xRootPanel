@@ -1,0 +1,72 @@
+    Build a modern, responsive web dashboard called NeuralPanel using React with Tailwind CSS. This dashboard will serve as a centralized interface for managing and viewing the status of self-hosted applications running on different devices across a home lab or network.
+
+🧩 Features required:
+
+    App Cards Grid
+    Display a responsive grid of cards, each representing a self-hosted app. Each card must show:
+
+        App name
+
+        Emoji or icon
+
+        Short description
+
+        Clickable URL (opens the app in a new tab)
+
+        Online status indicator (✅ Online, ❌ Offline, ⏳ Loading)
+
+    Dynamic Config File
+    Load app data from a local JSON file (e.g., apps.json) so users can easily add or remove apps without modifying code. Example:
+
+    [
+      {
+        "name": "Nextcloud",
+        "description": "Personal cloud storage",
+        "url": "https://datalab.local",
+        "icon": "🗂️",
+        "status_endpoint": "https://datalab.local/status"
+      },
+      {
+        "name": "Jellyfin",
+        "description": "Media streaming server",
+        "url": "http://192.168.50.10:8096",
+        "icon": "🎞️"
+      }
+    ]
+
+    Health Checks
+    Periodically (every 60 seconds), fetch the status_endpoint or url to check if the app is online:
+
+        Use fetch to detect HTTP 200 OK
+
+        If no status_endpoint is given, try the url
+
+        Display the result in the status indicator on each card
+
+    Dark Mode / Light Mode Toggle
+    Add a toggle to switch between dark and light themes using Tailwind.
+
+    Simple Login Protection (Optional)
+    Include a simple passcode screen at launch to restrict dashboard access if enabled in config (e.g., {"require_passcode": true, "passcode": "admin123"}).
+
+    Self-Hosted Deployment
+    Include a working Dockerfile and docker-compose.yml to run the dashboard locally or on a home server.
+
+    Responsive UI and Animations
+    Use Tailwind CSS and optionally Framer Motion for card animations, hover effects, or loading transitions.
+
+📂 Folder Structure
+
+/public
+/src
+  /components
+  /assets
+  App.jsx
+  config.json
+Dockerfile
+docker-compose.yml
+README.md
+
+If you want the dashboard to also edit or update the config via the browser (GUI editor), add this to the end of the prompt:
+
+    Also add a configuration editor page accessible via a /settings route where I can manage apps (add/edit/delete) through a web UI. Save changes to the local apps.json file if running locally.
