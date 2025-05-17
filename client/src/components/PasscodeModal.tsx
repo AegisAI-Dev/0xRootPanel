@@ -48,31 +48,35 @@ export const PasscodeModal: React.FC<PasscodeModalProps> = ({ isOpen, onAuthenti
   return (
     <Dialog open={isOpen} modal>
       <DialogTitle className="sr-only">Authentication Required</DialogTitle>
-      <DialogContent className="sm:max-w-md bg-white dark:bg-slate-800" aria-describedby="passcode-modal-description">
+      <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 matrix-bg scan-line" aria-describedby="passcode-modal-description">
         <div className="text-center mb-6">
-          <div className="mb-4 text-primary-600 text-5xl">🔐</div>
-          <h2 className="text-2xl font-semibold text-slate-800 dark:text-white" id="passcode-dialog-title">NeuralPanel</h2>
-          <p className="text-slate-600 dark:text-slate-300 mt-2" id="passcode-modal-description">Enter passcode to access dashboard</p>
+          <div className="mb-4 text-primary text-5xl cyber-flicker">⚠️</div>
+          <h2 className="text-2xl font-bold text-slate-800 dark:text-primary glitch-text" data-text="0xRootPanel" id="passcode-dialog-title">0xRootPanel</h2>
+          <p className="text-slate-600 dark:text-primary/80 mt-2 font-mono" id="passcode-modal-description">AUTHORIZATION REQUIRED</p>
         </div>
         
         <form onSubmit={handlePasscodeSubmit}>
           <div className="mb-4">
+            <div className="code-block mb-3">
+              <div className="opacity-70"># system authorization</div>
+              <div>$ sudo access --auth-level=root</div>
+            </div>
             <Input
               type="password"
-              placeholder="Enter passcode"
+              placeholder="ENTER_SECURE_PASSCODE"
               value={passcode}
               onChange={(e) => setPasscode(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg bg-slate-100 dark:bg-slate-700 border border-transparent focus:border-primary-500 focus:ring-2 focus:ring-primary-500 dark:text-white text-center text-lg tracking-widest"
+              className="w-full px-4 py-3 rounded-lg bg-slate-100 dark:bg-black/50 border border-transparent focus:border-primary focus:ring-2 focus:ring-primary dark:text-primary text-center text-lg tracking-widest font-mono"
               disabled={isSubmitting}
               autoFocus
             />
           </div>
           <Button 
             type="submit" 
-            className="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+            className="w-full neon-button bg-transparent border-primary text-primary py-3 px-4 uppercase tracking-widest font-mono"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Checking...' : 'Unlock Dashboard'}
+            {isSubmitting ? '[ Authenticating... ]' : '[ Execute Authentication ]'}
           </Button>
         </form>
         
@@ -82,10 +86,13 @@ export const PasscodeModal: React.FC<PasscodeModalProps> = ({ isOpen, onAuthenti
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="mt-3 text-center text-rose-500 flex items-center justify-center gap-2"
+              className="mt-3 code-block text-destructive border-destructive/50"
             >
-              <AlertCircle className="h-4 w-4" />
-              <span>Incorrect passcode. Please try again.</span>
+              <div className="text-xs opacity-80"># authentication failure</div>
+              <div className="flex items-center gap-2 text-sm">
+                <AlertCircle className="h-4 w-4" />
+                <span className="font-mono">ERROR: INVALID_CREDENTIALS [code:403]</span>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

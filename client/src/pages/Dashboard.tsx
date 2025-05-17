@@ -102,6 +102,20 @@ export const Dashboard: React.FC<DashboardProps> = ({ toggleSidebar }) => {
       <Header title="Dashboard" toggleSidebar={toggleSidebar} onRefresh={refreshStatus} />
       
       <div className="p-4 md:p-6">
+        {/* ASCII Art Header */}
+        <div className="hidden md:block mb-6">
+          <pre className="text-primary text-xs font-mono opacity-70 leading-tight whitespace-pre overflow-x-auto">
+{`
+     ██████╗ ██╗  ██╗██████╗  ██████╗  ██████╗ ████████╗██████╗  █████╗ ███╗   ██╗███████╗██╗     
+    ██╔═████╗╚██╗██╔╝██╔══██╗██╔═══██╗██╔═══██╗╚══██╔══╝██╔══██╗██╔══██╗████╗  ██║██╔════╝██║     
+    ██║██╔██║ ╚███╔╝ ██████╔╝██║   ██║██║   ██║   ██║   ██████╔╝███████║██╔██╗ ██║█████╗  ██║     
+    ████╔╝██║ ██╔██╗ ██╔══██╗██║   ██║██║   ██║   ██║   ██╔═══╝ ██╔══██║██║╚██╗██║██╔══╝  ██║     
+    ╚██████╔╝██╔╝ ██╗██║  ██║╚██████╔╝╚██████╔╝   ██║   ██║     ██║  ██║██║ ╚████║███████╗███████╗
+     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝    ╚═╝   ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝
+                            [SYSTEM VERSION 3.7.2] - SECURE DASHBOARD ACCESS
+`}
+          </pre>
+        </div>
         {/* Status Summary */}
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"

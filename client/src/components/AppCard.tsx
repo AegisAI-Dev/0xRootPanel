@@ -58,7 +58,19 @@ export const AppCard: React.FC<AppCardProps> = ({ app }) => {
                 </span>
               </div>
             </div>
-            <p className="text-slate-600 dark:text-slate-300 text-sm">{description}</p>
+            <p className="text-slate-600 dark:text-slate-300 text-sm font-mono">{description}</p>
+            <div className="mt-2 text-xs font-mono text-slate-500 dark:text-primary/60 overflow-hidden">
+              <span className="opacity-70">ID::</span> {(name + url).split('').map(c => c.charCodeAt(0).toString(16)).join('').substring(0, 16)}
+            </div>
+            <div className="code-block">
+              <div className="opacity-70"># service status check</div>
+              <div className="flex justify-between">
+                <span>$ ping {url.replace(/https?:\/\//g, '')}</span>
+                <span className={status === 'online' ? 'text-green-400' : 'text-red-400'}>
+                  {status === 'online' ? '200 OK' : '503 ERR'}
+                </span>
+              </div>
+            </div>
           </div>
           <div className="px-4 py-3 bg-slate-50 dark:bg-slate-700/30 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center">
             <a
