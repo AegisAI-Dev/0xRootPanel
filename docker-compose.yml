@@ -1,14 +1,32 @@
 version: '3.8'
 services:
-  neuralpanel:
+  0xrootpanel:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: neuralpanel
+    container_name: 0xrootpanel
     restart: unless-stopped
     ports:
-      - "5000:5000"
+      - "5000:5000"  # Default port
     volumes:
-      - ./public:/app/public
+      - 0xrootpanel_data:/app/data  # For persistent config storage
     environment:
       - NODE_ENV=production
+      # Uncomment and set to your passcode of choice for security
+      # - PASSCODE=rootnull2025
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5000/api/config"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    networks:
+      - 0xrootnet
+
+networks:
+  0xrootnet:
+    driver: bridge
+
+volumes:
+  0xrootpanel_data:
+    driver: local
