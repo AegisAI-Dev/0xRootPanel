@@ -1,0 +1,95 @@
+    Build a dark-themed, cyberpunk-style web dashboard called 0xRootPanel, powered by React + Tailwind CSS (with optional Framer Motion or GSAP). This dashboard is for a cybersecurity/devops engineer to monitor, access, and control self-hosted apps across multiple machines in a private infrastructure.
+
+💀 Visual Aesthetic:
+
+    Hacker/Matrix/Cyberpunk UI
+
+    Black background with neon accents (green, red, purple, electric blue)
+
+    Animated glitch text effects (on titles, on hover)
+
+    Terminal-style monospace font (e.g., Fira Code, JetBrains Mono)
+
+    Use ASCII-like animations or borders
+
+    Optional command-line simulation intro animation (like logging into a secured system)
+
+🧩 Functional Requirements:
+
+    Dynamic App Grid (animated)
+    Each app shows:
+
+        App name (glitched or typewriter effect)
+
+        Icon or emoji (or SVG logo support)
+
+        Description
+
+        Clickable URL
+
+        Status ping (✅, ❌, ⏳) using fetch() with live response time display (e.g., 184ms)
+
+    Config File (JSON-based)
+    Load app data from apps.json. Example:
+
+    [
+      {
+        "name": "NeuralHunt",
+        "description": "AI Malware Scanner",
+        "url": "http://192.168.50.100:8081",
+        "icon": "🧠",
+        "status_endpoint": "http://192.168.50.100:8081/health"
+      },
+      {
+        "name": "Proxmox",
+        "description": "VM & Container Control Node",
+        "url": "https://192.168.50.5:8006",
+        "icon": "🖥️"
+      }
+    ]
+
+    Real-Time Status Checks
+
+        Ping endpoint or URL every 30–60 seconds
+
+        Color-coded borders (green = online, red = offline, blue = checking)
+
+        Show latency in ms
+
+    Dark/Light Mode (optional toggle)
+    Default: dark mode hacker theme
+
+    Simple Passphrase Login
+
+        One-time login using a passcode like rootnull2025
+
+        Store in localStorage, optional config in JSON
+
+    Docker Support
+
+        Add Dockerfile and docker-compose.yml for local or homelab hosting
+
+        Mount the config file as a volume for easy edits
+
+🧠 Optional Elite Features:
+
+    /admin route with a secure UI to edit the JSON config (CRUD)
+
+    Keyboard shortcuts for fast navigation (Ctrl+Shift+D to toggle dark/light, F5 to force refresh all statuses)
+
+    Easter eggs (Konami code shows hidden 0xRootNull badge or system info)
+
+    Optional system tray widget using Tauri or Electron in the future
+
+📁 Structure
+
+/src
+  /components
+    AppCard.jsx
+    StatusBadge.jsx
+  /styles
+    glitch.css
+  config.json
+  App.jsx
+Dockerfile
+docker-compose.yml

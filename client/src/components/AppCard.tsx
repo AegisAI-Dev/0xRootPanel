@@ -17,19 +17,19 @@ export const AppCard: React.FC<AppCardProps> = ({ app }) => {
       case 'online':
         return {
           bgClass: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300',
-          dotClass: 'bg-emerald-500',
+          dotClass: 'status-online',
           text: 'Online'
         };
       case 'offline':
         return {
           bgClass: 'bg-rose-100 text-rose-800 dark:bg-rose-500/20 dark:text-rose-300',
-          dotClass: 'bg-rose-500',
+          dotClass: 'status-offline',
           text: 'Offline'
         };
       case 'loading':
         return {
           bgClass: 'bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300',
-          dotClass: 'bg-amber-500 animate-pulse',
+          dotClass: 'status-loading animate-pulse',
           text: 'Loading'
         };
     }
@@ -43,13 +43,13 @@ export const AppCard: React.FC<AppCardProps> = ({ app }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <Card className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow overflow-hidden h-full">
+      <Card className="cyberpunk-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all overflow-hidden h-full">
         <div className="flex flex-col h-full">
           <div className="p-4 flex-grow">
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-center">
                 <div className="text-3xl mr-3">{icon}</div>
-                <h3 className="text-lg font-medium text-slate-800 dark:text-white">{name}</h3>
+                <h3 className="text-lg font-medium text-slate-800 dark:text-white glitch-text">{name}</h3>
               </div>
               <div className="flex-shrink-0">
                 <span className={cn("inline-flex items-center px-2 py-1 rounded-full text-xs font-medium", bgClass)}>
@@ -65,15 +65,15 @@ export const AppCard: React.FC<AppCardProps> = ({ app }) => {
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 text-sm font-medium transition-colors"
+              className="terminal-prompt text-primary text-sm font-mono font-medium hover:opacity-80 transition-opacity"
             >
-              Open
+              Access
             </a>
             <a
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300"
+              className="text-primary hover:text-primary/80 transition-colors"
               aria-label={`Open ${name}`}
             >
               <Eye className="h-5 w-5" />
