@@ -49,7 +49,7 @@ export const AppCard: React.FC<AppCardProps> = ({ app }) => {
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-center">
                 <div className="text-3xl mr-3">{icon}</div>
-                <h3 className="text-lg font-medium text-slate-800 dark:text-white glitch-text">{name}</h3>
+                <h3 className="text-lg font-medium text-slate-800 dark:text-white glitch-text" data-text={name}>{name}</h3>
               </div>
               <div className="flex-shrink-0">
                 <span className={cn("inline-flex items-center px-2 py-1 rounded-full text-xs font-medium", bgClass)}>

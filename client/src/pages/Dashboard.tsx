@@ -98,7 +98,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ toggleSidebar }) => {
     : 'never';
 
   return (
-    <main className="flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-900">
+    <main className="flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-900 matrix-bg scan-line">
       <Header title="Dashboard" toggleSidebar={toggleSidebar} onRefresh={refreshStatus} />
       
       <div className="p-4 md:p-6">
@@ -128,9 +128,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ toggleSidebar }) => {
 
         {/* Last Checked Timestamp */}
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-medium text-slate-800 dark:text-white">Self-Hosted Applications</h2>
-          <div className="text-sm text-slate-500 dark:text-slate-400">
-            Last checked: <span>{formattedLastChecked}</span>
+          <h2 className="text-lg font-medium text-slate-800 dark:text-primary terminal-prompt hacker-typing">Self-Hosted Applications</h2>
+          <div className="text-sm text-slate-500 dark:text-primary/80 cyber-flicker font-mono">
+            [SYS::TIMESTAMP] <span className="text-primary">{formattedLastChecked}</span>
           </div>
         </div>
 
