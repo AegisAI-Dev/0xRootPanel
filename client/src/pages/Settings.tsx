@@ -6,8 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
-import { useConfig } from '@/contexts/ConfigContext';
 import { PlusCircle, Save, Trash2, AlertCircle } from 'lucide-react';
 import { Application, Config } from '@/types';
 import {
@@ -21,6 +19,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { motion } from 'framer-motion';
+import { useToast } from "@/hooks/use-toast";
 
 interface SettingsProps {
   toggleSidebar: () => void;
@@ -35,17 +34,37 @@ const initialAppState: Application = {
 };
 
 export const Settings: React.FC<SettingsProps> = ({ toggleSidebar }) => {
-  const { config, saveConfig, isLoading } = useConfig();
+  const [config, setConfig] = useState<Config | null>(null);
   const [localConfig, setLocalConfig] = useState<Config | null>(null);
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const { toast } = useToast();
 
+  // Fetch config on mount
   useEffect(() => {
-    if (config) {
-      setLocalConfig({ ...config });
-    }
-  }, [config]);
+    const fetchConfig = async () => {
+      try {
+        setIsLoading(true);
+        const res = await fetch('/api/config');
+        const data = await res.json();
+        setConfig(data);
+        setLocalConfig({ ...data });
+      } catch (error) {
+        console.error('Error fetching config:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to load configuration',
+          variant: 'destructive'
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchConfig();
+  }, []);
 
   const handleAddApp = () => {
     if (!localConfig) return;
@@ -112,9 +131,37 @@ export const Settings: React.FC<SettingsProps> = ({ toggleSidebar }) => {
   const handleSaveConfig = async () => {
     if (!localConfig) return;
     
-    setIsSaving(true);
-    const success = await saveConfig(localConfig);
-    setIsSaving(false);
+    try {
+      setIsSaving(true);
+      const res = await fetch('/api/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(localConfig)
+      });
+      
+      if (res.ok) {
+        setConfig(localConfig);
+        toast({
+          title: 'Success',
+          description: 'Configuration saved successfully'
+        });
+      } else {
+        toast({
+          title: 'Error',
+          description: 'Failed to save configuration',
+          variant: 'destructive'
+        });
+      }
+    } catch (error) {
+      console.error('Error saving config:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to save configuration',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   if (!localConfig || isLoading) {

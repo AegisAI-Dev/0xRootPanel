@@ -5,7 +5,6 @@ import { Dashboard } from '@/pages/Dashboard';
 import { Settings } from '@/pages/Settings';
 import { Sidebar } from '@/components/Sidebar';
 import { PasscodeModal } from '@/components/PasscodeModal';
-import { useConfig } from '@/contexts/ConfigContext';
 
 function Router({ toggleSidebar }: { toggleSidebar: () => void }) {
   return (
@@ -19,11 +18,33 @@ function Router({ toggleSidebar }: { toggleSidebar: () => void }) {
 
 function App() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(window.innerWidth < 768);
-  const { hasPasscodeEnabled, isAuthenticated } = useConfig();
+  const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for now
+  const [hasPasscodeEnabled, setHasPasscodeEnabled] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed);
   };
+
+  // Fetch config on mount to check if passcode is enabled
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const res = await fetch('/api/config');
+        const data = await res.json();
+        setHasPasscodeEnabled(Boolean(data.require_passcode));
+        
+        // Check for stored authentication
+        const hasAuth = localStorage.getItem('neuralPanelAuthenticated') === 'true';
+        if (data.require_passcode && !hasAuth) {
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        console.error('Error fetching config:', error);
+      }
+    };
+    
+    fetchConfig();
+  }, []);
 
   // Handle responsive sidebar on window resize
   useEffect(() => {
@@ -37,9 +58,18 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Simple function to handle authentication
+  const handleAuthentication = () => {
+    setIsAuthenticated(true);
+    localStorage.setItem('neuralPanelAuthenticated', 'true');
+  };
+
   return (
     <>
-      <PasscodeModal isOpen={hasPasscodeEnabled && !isAuthenticated} />
+      <PasscodeModal 
+        isOpen={hasPasscodeEnabled && !isAuthenticated} 
+        onAuthenticate={handleAuthentication} // Pass this to the modal
+      />
       
       <div className="flex h-screen overflow-hidden">
         <Sidebar isCollapsed={isSidebarCollapsed} toggleSidebar={toggleSidebar} />

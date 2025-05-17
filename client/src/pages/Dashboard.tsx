@@ -1,17 +1,76 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
 import { StatusCard } from '@/components/StatusCard';
 import { AppCard } from '@/components/AppCard';
-import { useConfig } from '@/contexts/ConfigContext';
 import { formatTimeAgo } from '@/utils/formatTimeAgo';
 import { motion } from 'framer-motion';
+import { AppWithStatus, StatusSummary } from '@/types';
 
 interface DashboardProps {
   toggleSidebar: () => void;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ toggleSidebar }) => {
-  const { apps, lastUpdated, statusSummary } = useConfig();
+  const [apps, setApps] = useState<AppWithStatus[]>([]);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Calculate status summary based on apps array
+  const statusSummary: StatusSummary = {
+    total: apps.length,
+    online: apps.filter(app => app.status === 'online').length,
+    offline: apps.filter(app => app.status === 'offline').length
+  };
+  
+  // Function to refresh app statuses
+  const refreshStatus = async () => {
+    try {
+      setIsLoading(true);
+      
+      // Fetch configuration to get apps
+      const configRes = await fetch('/api/config');
+      const configData = await configRes.json();
+      
+      // Check status for each app
+      const appsWithStatus = await Promise.all(
+        configData.apps.map(async (app: any) => {
+          try {
+            const endpoint = app.status_endpoint || app.url;
+            const res = await fetch(`/api/check-status?url=${encodeURIComponent(endpoint)}`);
+            const data = await res.json();
+            
+            return {
+              ...app,
+              status: data.status
+            };
+          } catch (error) {
+            return {
+              ...app,
+              status: 'offline'
+            };
+          }
+        })
+      );
+      
+      setApps(appsWithStatus);
+      setLastUpdated(new Date());
+    } catch (error) {
+      console.error('Error refreshing status:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  // Initial load and periodic refresh
+  useEffect(() => {
+    refreshStatus();
+    
+    const intervalId = setInterval(() => {
+      refreshStatus();
+    }, 60000);
+    
+    return () => clearInterval(intervalId);
+  }, []);
 
   const formattedLastChecked = lastUpdated 
     ? formatTimeAgo(lastUpdated) 
@@ -19,7 +78,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ toggleSidebar }) => {
 
   return (
     <main className="flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-900">
-      <Header title="Dashboard" toggleSidebar={toggleSidebar} />
+      <Header title="Dashboard" toggleSidebar={toggleSidebar} onRefresh={refreshStatus} />
       
       <div className="p-4 md:p-6">
         {/* Status Summary */}

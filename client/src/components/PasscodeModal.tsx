@@ -3,30 +3,45 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { AlertCircle } from 'lucide-react';
-import { useConfig } from '@/contexts/ConfigContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface PasscodeModalProps {
   isOpen: boolean;
+  onAuthenticate?: () => void;
 }
 
-export const PasscodeModal: React.FC<PasscodeModalProps> = ({ isOpen }) => {
+export const PasscodeModal: React.FC<PasscodeModalProps> = ({ isOpen, onAuthenticate }) => {
   const [passcode, setPasscode] = useState('');
   const [error, setError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { checkPasscode } = useConfig();
 
   const handlePasscodeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(false);
     
-    const isValid = await checkPasscode(passcode);
-    
-    if (!isValid) {
+    try {
+      const res = await fetch('/api/verify-passcode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passcode })
+      });
+      
+      const data = await res.json();
+      
+      if (data.valid) {
+        if (onAuthenticate) {
+          onAuthenticate();
+        }
+      } else {
+        setError(true);
+        setTimeout(() => setError(false), 3000);
+      }
+    } catch (error) {
       setError(true);
-      setIsSubmitting(false);
       setTimeout(() => setError(false), 3000);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
