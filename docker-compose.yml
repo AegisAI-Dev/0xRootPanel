@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  neuralpanel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: neuralpanel
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./public:/app/public
+    environment:
+      - NODE_ENV=production

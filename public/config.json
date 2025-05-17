@@ -1,0 +1,55 @@
+{
+  "require_passcode": true,
+  "passcode": "admin123",
+  "apps": [
+    {
+      "name": "Nextcloud",
+      "description": "Personal cloud storage",
+      "url": "https://datalab.local",
+      "icon": "🗂️",
+      "status_endpoint": "https://datalab.local/status"
+    },
+    {
+      "name": "Jellyfin",
+      "description": "Media streaming server",
+      "url": "http://192.168.50.10:8096",
+      "icon": "🎞️"
+    },
+    {
+      "name": "Grafana",
+      "description": "Metrics visualization",
+      "url": "http://192.168.50.12:3000",
+      "icon": "📊"
+    },
+    {
+      "name": "PostgreSQL",
+      "description": "Database server",
+      "url": "http://192.168.50.20:5432",
+      "icon": "🐘"
+    },
+    {
+      "name": "Home Assistant",
+      "description": "Smart home automation",
+      "url": "http://192.168.50.15:8123",
+      "icon": "📱"
+    },
+    {
+      "name": "Joplin",
+      "description": "Note-taking app",
+      "url": "http://192.168.50.30:22300",
+      "icon": "📝"
+    },
+    {
+      "name": "Syncthing",
+      "description": "File synchronization",
+      "url": "http://192.168.50.25:8384",
+      "icon": "💾"
+    },
+    {
+      "name": "Nginx Proxy Manager",
+      "description": "Reverse proxy",
+      "url": "http://192.168.50.5:81",
+      "icon": "🌐"
+    }
+  ]
+}
