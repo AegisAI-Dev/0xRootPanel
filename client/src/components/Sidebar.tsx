@@ -35,41 +35,41 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) 
         <ul className="space-y-2">
           <li>
             <Link href="/">
-              <a className={cn(
-                "flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors",
+              <div className={cn(
+                "flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors cursor-pointer",
                 location === "/" 
                   ? "bg-primary-50 dark:bg-primary-700/20 text-primary-700 dark:text-primary-100" 
                   : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700/50"
               )}>
                 <LayoutDashboard className="h-5 w-5" />
                 <span>Dashboard</span>
-              </a>
+              </div>
             </Link>
           </li>
           <li>
             <Link href="/settings">
-              <a className={cn(
-                "flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors",
+              <div className={cn(
+                "flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors cursor-pointer",
                 location === "/settings" 
                   ? "bg-primary-50 dark:bg-primary-700/20 text-primary-700 dark:text-primary-100" 
                   : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700/50"
               )}>
                 <Settings className="h-5 w-5" />
                 <span>Settings</span>
-              </a>
+              </div>
             </Link>
           </li>
           <li>
             <Link href="/about">
-              <a className={cn(
-                "flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors",
+              <div className={cn(
+                "flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors cursor-pointer",
                 location === "/about" 
                   ? "bg-primary-50 dark:bg-primary-700/20 text-primary-700 dark:text-primary-100" 
                   : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700/50"
               )}>
                 <Info className="h-5 w-5" />
                 <span>About</span>
-              </a>
+              </div>
             </Link>
           </li>
         </ul>

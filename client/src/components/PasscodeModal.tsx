@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { AlertCircle } from 'lucide-react';
@@ -47,11 +47,12 @@ export const PasscodeModal: React.FC<PasscodeModalProps> = ({ isOpen, onAuthenti
 
   return (
     <Dialog open={isOpen} modal>
-      <DialogContent className="sm:max-w-md bg-white dark:bg-slate-800">
+      <DialogTitle className="sr-only">Authentication Required</DialogTitle>
+      <DialogContent className="sm:max-w-md bg-white dark:bg-slate-800" aria-describedby="passcode-modal-description">
         <div className="text-center mb-6">
           <div className="mb-4 text-primary-600 text-5xl">🔐</div>
-          <h2 className="text-2xl font-semibold text-slate-800 dark:text-white">NeuralPanel</h2>
-          <p className="text-slate-600 dark:text-slate-300 mt-2">Enter passcode to access dashboard</p>
+          <h2 className="text-2xl font-semibold text-slate-800 dark:text-white" id="passcode-dialog-title">NeuralPanel</h2>
+          <p className="text-slate-600 dark:text-slate-300 mt-2" id="passcode-modal-description">Enter passcode to access dashboard</p>
         </div>
         
         <form onSubmit={handlePasscodeSubmit}>
