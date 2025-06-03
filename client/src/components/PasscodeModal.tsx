@@ -51,7 +51,7 @@ export const PasscodeModal: React.FC<PasscodeModalProps> = ({ isOpen, onAuthenti
       <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 matrix-bg scan-line" aria-describedby="passcode-modal-description">
         <div className="text-center mb-6">
           <div className="mb-4 text-primary text-5xl cyber-flicker">⚠️</div>
-          <h2 className="text-2xl font-bold text-slate-800 dark:text-primary glitch-text" data-text="0xRootPanel" id="passcode-dialog-title">0xRootPanel</h2>
+          <h2 className="text-2xl font-bold text-slate-800 dark:text-primary glitch-text" data-text="NeuralPanel" id="passcode-dialog-title">NeuralPanel</h2>
           <p className="text-slate-600 dark:text-primary/80 mt-2 font-mono" id="passcode-modal-description">AUTHORIZATION REQUIRED</p>
         </div>
         

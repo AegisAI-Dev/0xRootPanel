@@ -20,7 +20,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) 
       <div className="p-4 flex justify-between items-center border-b border-slate-200 dark:border-primary/20">
         <div className="flex items-center space-x-3">
           <div className="text-2xl cyber-flicker">🧠</div>
-          <h1 className="text-xl font-bold text-slate-800 dark:text-primary glitch-text" data-text="0xRootPanel">0xRootPanel</h1>
+          <h1 className="text-xl font-bold text-slate-800 dark:text-primary glitch-text" data-text="NeuralPanel">NeuralPanel</h1>
         </div>
         <button 
           onClick={toggleSidebar}

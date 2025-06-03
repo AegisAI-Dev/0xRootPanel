@@ -6,6 +6,7 @@ import { formatTimeAgo } from '@/utils/formatTimeAgo';
 import { motion } from 'framer-motion';
 import { AppWithStatus, StatusSummary } from '@/types';
 import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent } from '@/components/ui/card';
 
 interface DashboardProps {
   toggleSidebar: () => void;
@@ -151,9 +152,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ toggleSidebar }) => {
         {/* App Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {apps.map((app, index) => (
-            <AppCard key={`${app.name}-${index}`} app={app} />
+            <AppCard key={app.name} app={app} />
           ))}
-          
           {apps.length === 0 && (
             <div className="col-span-full py-8 text-center text-slate-500 dark:text-slate-400">
               No applications configured. Add some in Settings.

@@ -5,7 +5,8 @@ import { promisify } from "util";
 
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
-const configPath = path.join(process.cwd(), "public", "config.json");
+const dataDir = path.join(process.cwd(), "data");
+const configPath = path.join(dataDir, "config.json");
 
 // modify the interface with any CRUD methods
 // you might need
@@ -24,6 +25,11 @@ export class MemStorage implements IStorage {
   constructor() {
     this.users = new Map();
     this.currentId = 1;
+    
+    // Ensure data directory exists with proper permissions
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true, mode: 0o755 });
+    }
     
     // Ensure config.json exists
     this.ensureConfigExists();
@@ -53,13 +59,7 @@ export class MemStorage implements IStorage {
         ]
       };
       
-      // Create directory if it doesn't exist
-      const dir = path.dirname(configPath);
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
-      
-      await writeFileAsync(configPath, JSON.stringify(defaultConfig, null, 2));
+      await writeFileAsync(configPath, JSON.stringify(defaultConfig, null, 2), { mode: 0o644 });
     }
   }
 
@@ -92,7 +92,19 @@ export class MemStorage implements IStorage {
 
   async saveConfig(config: Config): Promise<void> {
     try {
-      await writeFileAsync(configPath, JSON.stringify(config, null, 2));
+      // Ensure data directory exists with proper permissions
+      if (!fs.existsSync(dataDir)) {
+        fs.mkdirSync(dataDir, { recursive: true, mode: 0o755 });
+      }
+      
+      // Write config with proper permissions
+      await writeFileAsync(configPath, JSON.stringify(config, null, 2), { mode: 0o644 });
+      
+      // Verify the file was written correctly
+      const savedConfig = await this.getConfig();
+      if (JSON.stringify(savedConfig) !== JSON.stringify(config)) {
+        throw new Error("Configuration verification failed");
+      }
     } catch (error) {
       console.error("Error saving config:", error);
       throw new Error("Failed to save configuration");

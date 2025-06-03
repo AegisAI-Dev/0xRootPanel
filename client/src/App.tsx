@@ -1,25 +1,17 @@
-import { useState, useEffect } from 'react';
-import { Switch, Route } from "wouter";
-import NotFound from "@/pages/not-found";
+import React, { useState, useEffect } from 'react';
+import { Route, Switch } from 'wouter';
 import { Dashboard } from '@/pages/Dashboard';
 import { Settings } from '@/pages/Settings';
+import { About } from '@/pages/About';
 import { Sidebar } from '@/components/Sidebar';
 import { PasscodeModal } from '@/components/PasscodeModal';
-
-function Router({ toggleSidebar }: { toggleSidebar: () => void }) {
-  return (
-    <Switch>
-      <Route path="/" component={() => <Dashboard toggleSidebar={toggleSidebar} />} />
-      <Route path="/settings" component={() => <Settings toggleSidebar={toggleSidebar} />} />
-      <Route component={NotFound} />
-    </Switch>
-  );
-}
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+import '@/styles/cyberpunk.css';
 
 function App() {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(window.innerWidth < 768);
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for now
-  const [hasPasscodeEnabled, setHasPasscodeEnabled] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isPasscodeModalOpen, setIsPasscodeModalOpen] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed);
@@ -31,7 +23,6 @@ function App() {
       try {
         const res = await fetch('/api/config');
         const data = await res.json();
-        setHasPasscodeEnabled(Boolean(data.require_passcode));
         
         // Check for stored authentication
         const hasAuth = localStorage.getItem('neuralPanelAuthenticated') === 'true';
@@ -58,27 +49,35 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Simple function to handle authentication
-  const handleAuthentication = () => {
+  const handleAuthenticate = () => {
     setIsAuthenticated(true);
-    localStorage.setItem('neuralPanelAuthenticated', 'true');
+    setIsPasscodeModalOpen(false);
   };
 
-  return (
-    <>
+  if (!isAuthenticated) {
+    return (
       <PasscodeModal 
-        isOpen={hasPasscodeEnabled && !isAuthenticated} 
-        onAuthenticate={handleAuthentication} // Pass this to the modal
+        isOpen={isPasscodeModalOpen} 
+        onAuthenticate={handleAuthenticate} 
       />
-      
-      <div className="flex h-screen overflow-hidden">
-        <Sidebar isCollapsed={isSidebarCollapsed} toggleSidebar={toggleSidebar} />
+    );
+  }
+
+  return (
+    <ErrorBoundary>
+      <div className="flex h-screen bg-slate-50 dark:bg-slate-900">
+        <Sidebar 
+          isCollapsed={isSidebarCollapsed} 
+          toggleSidebar={toggleSidebar} 
+        />
         
-        <div className="flex-1 overflow-hidden">
-          {isAuthenticated ? <Router toggleSidebar={toggleSidebar} /> : null}
-        </div>
+        <Switch>
+          <Route path="/" component={() => <Dashboard toggleSidebar={toggleSidebar} />} />
+          <Route path="/settings" component={() => <Settings toggleSidebar={toggleSidebar} />} />
+          <Route path="/about" component={() => <About toggleSidebar={toggleSidebar} />} />
+        </Switch>
       </div>
-    </>
+    </ErrorBoundary>
   );
 }
 

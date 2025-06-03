@@ -10,11 +10,11 @@ export const users = pgTable("users", {
 
 // Define the application schema
 export const ApplicationSchema = z.object({
-  name: z.string(),
+  name: z.string().min(1, "Name is required"),
   description: z.string(),
-  url: z.string().url(),
-  icon: z.string(),
-  status_endpoint: z.string().url().optional(),
+  url: z.string().min(1, "URL is required"),
+  icon: z.string().min(1, "Icon is required"),
+  status_endpoint: z.string().optional(),
 });
 
 export const ConfigSchema = z.object({

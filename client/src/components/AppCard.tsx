@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { motion } from 'framer-motion';
-import { Eye } from 'lucide-react';
+import { Eye, ExternalLink } from 'lucide-react';
 import { type AppWithStatus } from '@/types';
 import { cn } from '@/lib/utils';
 
@@ -10,8 +10,8 @@ interface AppCardProps {
 }
 
 export const AppCard: React.FC<AppCardProps> = ({ app }) => {
-  const { name, description, url, icon, status } = app;
-
+  const { name, url, icon, status, description } = app;
+  
   const getStatusStyles = () => {
     switch (status) {
       case 'online':
@@ -73,23 +73,34 @@ export const AppCard: React.FC<AppCardProps> = ({ app }) => {
             </div>
           </div>
           <div className="px-4 py-3 bg-slate-50 dark:bg-slate-700/30 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center">
-            <a
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="terminal-prompt text-primary text-sm font-mono font-medium hover:opacity-80 transition-opacity"
-            >
-              Access
-            </a>
-            <a
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:text-primary/80 transition-colors"
-              aria-label={`Open ${name}`}
-            >
-              <Eye className="h-5 w-5" />
-            </a>
+            {status === 'online' && (
+              <button
+                onClick={() => window.open(url, '_blank')}
+                className="terminal-prompt text-primary text-sm font-mono font-medium hover:opacity-80 transition-opacity flex items-center space-x-2"
+              >
+                <ExternalLink className="h-4 w-4" />
+                <span>EXECUTE</span>
+              </button>
+            )}
+            <div className="flex items-center space-x-2">
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="terminal-prompt text-primary text-sm font-mono font-medium hover:opacity-80 transition-opacity"
+              >
+                Access
+              </a>
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80 transition-colors"
+                aria-label={`Open ${name}`}
+              >
+                <Eye className="h-5 w-5" />
+              </a>
+            </div>
           </div>
         </div>
       </Card>

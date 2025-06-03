@@ -1,0 +1,34 @@
+{
+  "require_passcode": true,
+  "passcode": "admin123",
+  "apps": [
+    {
+      "name": "Truenas",
+      "description": "Truenas Home Made Nas Lab Server",
+      "url": "http://192.168.50.170/",
+      "icon": "🖥️",
+      "status_endpoint": ""
+    },
+    {
+      "name": "Nextcloud",
+      "description": "Cloud Data Storage System",
+      "url": "http://192.168.50.170:30027/",
+      "icon": "💾",
+      "status_endpoint": ""
+    },
+    {
+      "name": "Jellyfin",
+      "description": "Mediacenter",
+      "url": "http://192.168.50.170:8069/",
+      "icon": "🎬",
+      "status_endpoint": ""
+    },
+    {
+      "name": "Jellyseerr",
+      "description": "Libary Of Movies",
+      "url": "http://192.168.50.170:30042",
+      "icon": "🎥",
+      "status_endpoint": ""
+    }
+  ]
+}

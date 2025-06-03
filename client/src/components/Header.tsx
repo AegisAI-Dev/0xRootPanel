@@ -26,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({ title, toggleSidebar, onRefresh 
           >
             <Menu className="h-6 w-6" />
           </button>
-          <h1 className="text-xl font-bold text-slate-800 dark:text-primary md:hidden tracking-wide glitch-text" data-text="0xRootPanel">0xRootPanel</h1>
+          <h1 className="text-xl font-bold text-slate-800 dark:text-primary md:hidden tracking-wide glitch-text" data-text="NeuralPanel">NeuralPanel</h1>
           <h1 className="text-xl font-bold text-slate-800 dark:text-primary hidden md:block tracking-wide glitch-text" data-text={title}>{title}</h1>
         </div>
         
