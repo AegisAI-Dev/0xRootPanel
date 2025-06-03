@@ -1,5 +1,9 @@
 # 0xRootPanel
 
+[![Docker Ready](https://img.shields.io/badge/docker-ready-blue?logo=docker)](https://hub.docker.com/)
+[![MIT License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/AegisAI-Dev/0xRootPanel?style=social)](https://github.com/AegisAI-Dev/0xRootPanel)
+
 A dark-themed, cyberpunk-style dashboard for cybersecurity/devops engineers to monitor, access, and control self-hosted applications across private infrastructure.
 
 ```
@@ -11,7 +15,7 @@ A dark-themed, cyberpunk-style dashboard for cybersecurity/devops engineers to m
      ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝    ╚═╝   ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝
 ```
 
-## 💀 Features
+## 🚀 Features
 
 - **Cyberpunk UI**: Black background with neon accents (green, red, purple, electric blue)
 - **Animated Effects**: Glitch text effects, scanning lines, and matrix-style backgrounds
@@ -28,14 +32,14 @@ A dark-themed, cyberpunk-style dashboard for cybersecurity/devops engineers to m
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/0xrootpanel.git
-cd 0xrootpanel
+git clone https://github.com/AegisAI-Dev/0xRootPanel.git
+cd 0xRootPanel
 
 # Configure your passcode (optional)
 # Edit docker-compose.yml and uncomment the PASSCODE environment variable
 
 # Start the container
-docker-compose up -d
+docker compose up -d
 
 # Access the dashboard
 # Open http://localhost:5000 in your browser
@@ -46,8 +50,8 @@ docker-compose up -d
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/0xrootpanel.git
-cd 0xrootpanel
+git clone https://github.com/AegisAI-Dev/0xRootPanel.git
+cd 0xRootPanel
 
 # Install dependencies
 npm install
@@ -64,7 +68,7 @@ npm start
 
 ## ⚙️ Configuration
 
-The dashboard is configured through a JSON file. You can edit it through the Settings page or directly in the configuration file.
+The dashboard is configured through a JSON file. You can edit it through the Settings page or directly in the configuration file (`/app/data/config.json`).
 
 ### Sample Configuration
 
@@ -94,8 +98,8 @@ The dashboard is configured through a JSON file. You can edit it through the Set
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/0xrootpanel.git
-cd 0xrootpanel
+git clone https://github.com/AegisAI-Dev/0xRootPanel.git
+cd 0xRootPanel
 
 # Install dependencies
 npm install
@@ -107,8 +111,26 @@ npm run dev
 # Open http://localhost:5000 in your browser
 ```
 
+## 📸 Screenshots
+
+> Voeg hier je eigen screenshots toe van het dashboard in actie!
+
 ## 📚 Technologies Used
 
 - **Frontend**: React, TailwindCSS, Framer Motion
 - **Backend**: Node.js, Express
 - **Other Tools**: Docker, TypeScript
+
+## 📦 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## ⚡ CI/CD & Deployment
+
+- **Docker Compose**: Direct deployable met `docker compose up -d`
+- **TrueNAS**: Werkt direct als Docker Compose app op TrueNAS SCALE
+- **GitHub Actions**: *(optioneel, voeg een workflow toe voor automatische builds)*
+
+## 🤝 Contributing
+
+Pull requests, issues en feature requests zijn welkom! Open een issue of maak een PR.
