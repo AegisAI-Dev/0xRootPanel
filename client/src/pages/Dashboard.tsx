@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { AppWithStatus, StatusSummary } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
+import { TelenetUsageWidget } from '@/components/TelenetUsageWidget';
 
 interface DashboardProps {
   toggleSidebar: () => void;
@@ -17,6 +18,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ toggleSidebar }) => {
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+  const [searchQuery, setSearchQuery] = useState("");
   
   // Calculate status summary based on apps array
   const statusSummary: StatusSummary = {
@@ -102,7 +104,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ toggleSidebar }) => {
     <main className="flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-900 matrix-bg scan-line">
       <Header title="Dashboard" toggleSidebar={toggleSidebar} onRefresh={refreshStatus} />
       
-      <div className="p-4 md:p-6">
+      <div className="p-4 md:p-6 overflow-y-auto max-h-[calc(100vh-120px)] relative">
+        <TelenetUsageWidget />
         {/* ASCII Art Header */}
         <div className="hidden md:block mb-6">
           <pre className="text-primary text-xs font-mono opacity-70 leading-tight whitespace-pre overflow-x-auto">
@@ -117,6 +120,30 @@ export const Dashboard: React.FC<DashboardProps> = ({ toggleSidebar }) => {
 `}
           </pre>
         </div>
+        {/* Google Search Bar */}
+        <form
+          className="mb-6 flex items-center gap-2"
+          onSubmit={e => {
+            e.preventDefault();
+            if (searchQuery.trim()) {
+              window.open(`https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`, '_blank');
+            }
+          }}
+        >
+          <input
+            type="text"
+            className="flex-1 rounded-md border border-slate-300 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder="Google Search..."
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="px-4 py-2 rounded-md bg-primary text-white font-semibold hover:bg-primary/80 transition-colors"
+          >
+            Search
+          </button>
+        </form>
         {/* Status Summary */}
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"

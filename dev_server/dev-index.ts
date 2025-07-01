@@ -1,8 +1,9 @@
 import 'dotenv/config';
-import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
-import { serveStatic } from "./vite";
-import { log } from "./utils";
+import express, { type Express, type Request, type Response, type NextFunction } from "express";
+import { registerRoutes } from "../server/routes";
+import { setupVite } from "./dev-server";
+import { log } from "../server/utils";
+import { type Server } from "http";
 
 const app = express();
 app.use(express.json());
@@ -54,14 +55,19 @@ app.use((req, res, next) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
 
-      res.status(status).json({ message });
+      res.status(status as number).json({ message });
       log(`Error: ${message}`, "error");
     });
 
     // importantly only setup vite in development and after
     // setting up all the other routes so the catch-all route
     // doesn't interfere with the other routes
-    serveStatic(app);
+    if (app.get("env") === "development") {
+        await setupVite(app, server as Server);
+    } else {
+        // This else block will not be reached in dev mode, so no serveStatic here.
+        // serveStatic is for the production build only.
+    }
 
     // ALWAYS serve the app on port 5000
     // this serves both the API and the client.
@@ -93,4 +99,4 @@ app.use((req, res, next) => {
     log(`Failed to start server: ${error}`, "error");
     process.exit(1);
   }
-})();
+})(); 

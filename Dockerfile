@@ -10,16 +10,19 @@ RUN npm ci
 COPY . .
 
 # Build the application
-RUN npm run build
+RUN npm run build:client && npm run build
 
 # Production stage
 FROM node:18-alpine
 
 WORKDIR /app
 
+# Install wget for healthcheck
+RUN apk add --no-cache wget
+
 # Copy package files for production dependencies
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 # Copy built assets from builder stage
 COPY --from=builder /app/dist ./dist
@@ -39,5 +42,9 @@ EXPOSE 5000
 # Set environment variables
 ENV NODE_ENV=production
 
+# Create and use a non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+
 # Run the application
-CMD ["node", "server/index.js"]
+CMD ["node", "dist/index.js"]

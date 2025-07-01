@@ -23,6 +23,18 @@ services:
     networks:
       - 0xrootnet
 
+  ha-telemeter:
+    image: ghcr.io/custom-components/ha-telemeter:latest
+    container_name: ha-telemeter
+    restart: unless-stopped
+    environment:
+      - TELENET_USERNAME=nickyteunis@gmail.com
+      - TELENET_PASSWORD=yrf.wxm0BHF1uvf2vuh1
+    ports:
+      - "8080:8080"
+    networks:
+      - 0xrootnet
+
 networks:
   0xrootnet:
     driver: bridge

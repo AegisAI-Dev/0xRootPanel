@@ -29,6 +29,62 @@
       "url": "http://192.168.50.170:30042",
       "icon": "🎥",
       "status_endpoint": ""
+    },
+    {
+      "name": "Proxmox Server",
+      "description": "Hyper Virtualizer",
+      "url": "https://192.168.50.2:8006",
+      "icon": "💻",
+      "status_endpoint": ""
+    },
+    {
+      "name": "Radarr",
+      "description": "Automated Movie Database",
+      "url": "http://192.168.50.170:30025",
+      "icon": "🎬",
+      "status_endpoint": ""
+    },
+    {
+      "name": "Sonarr",
+      "description": "Automated Serie Database",
+      "url": "http://192.168.50.170:30113",
+      "icon": "🎬",
+      "status_endpoint": ""
+    },
+    {
+      "name": "Jellystat",
+      "description": "Jellyfin stats",
+      "url": "http://192.168.50.170:30176",
+      "icon": "🎥",
+      "status_endpoint": ""
+    },
+    {
+      "name": "Prowlarr",
+      "description": "Database Manipulator",
+      "url": "http://192.168.50.170:30050",
+      "icon": "🌐",
+      "status_endpoint": ""
+    },
+    {
+      "name": "qBittorrent",
+      "description": "Torrent Downloader",
+      "url": "http://192.168.50.170:30024",
+      "icon": "💾",
+      "status_endpoint": ""
+    },
+    {
+      "name": "Bazarr",
+      "description": "Automated Subs for Movies & Series",
+      "url": "http://192.168.50.170:30046",
+      "icon": "⌨️",
+      "status_endpoint": ""
+    },
+    {
+      "name": "Creativecore Truenas",
+      "description": "The Nas For Creativecore Dev Team",
+      "url": "http://192.168.50.15",
+      "icon": "💻",
+      "status_endpoint": ""
     }
   ]
 }
